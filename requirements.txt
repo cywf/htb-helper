@@ -1,0 +1,25 @@
+# Networking and scanning tools
+nmap==3.0.1
+
+# General utilities
+requests==2.25.1
+
+# For any potential data processing or manipulation
+pandas==1.2.4
+
+# If there's any potential for web scraping or HTML parsing
+beautifulsoup4==4.9.3
+lxml==4.6.3
+
+# If there's any potential for asynchronous operations
+aiohttp==3.7.4
+
+# For potential JSON operations
+simplejson==3.17.2
+
+# If there's any potential for date and time operations
+python-dateutil==2.8.1
+
+# If there's any potential for string pattern matching
+regex==2021.4.4
+

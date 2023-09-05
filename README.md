@@ -12,6 +12,17 @@ A comprehensive tool designed to assist penetration testers and security enthusi
 * **Payload Generation**: Automatically generate payloads using msfvenom based on the target machine type.
 * **Error Handling**: Log errors to error_log.txt and provide a visual loading bar for task progress.
 
+## Directory Structure
+
+- `error_handling.py`: Error logging and handling functions.
+- `main.py`: Main script to run the tool.
+- `nmap_payload_gen.py`: Nmap scanning and payload generation functions.
+- `tools.py`: Tool installation and setup functions.
+- `setup.py`: User input and directory setup functions.
+- `networking`: Resources and scripts related to networking tasks.
+- `systems`: Guides and resources for Linux, MacOS, and Windows systems.
+- `web`: Resources related to web-based vulnerabilities and attacks.
+
 ## Usage
 
 Clone the repository:
