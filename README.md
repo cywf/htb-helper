@@ -14,14 +14,14 @@ A comprehensive tool designed to assist penetration testers and security enthusi
 
 ## Directory Structure
 
-- `error_handling.py`: Error logging and handling functions.
-- `main.py`: Main script to run the tool.
-- `nmap_payload_gen.py`: Nmap scanning and payload generation functions.
-- `tools.py`: Tool installation and setup functions.
-- `setup.py`: User input and directory setup functions.
-- `networking`: Resources and scripts related to networking tasks.
-- `systems`: Guides and resources for Linux, MacOS, and Windows systems.
-- `web`: Resources related to web-based vulnerabilities and attacks.
+- [error_handling.py](https://github.com/cywf/htb-helper/error_handling.py): Error logging and handling functions.
+- [main.py](https://github.com/cywf/htb-helper/main.py): Main script to run the tool.
+- [nmap_payload_gen.py](https://github.com/cywf/htb-helper/nmap_payload_gen.py): Nmap scanning and payload generation functions.
+- [tools.py](https://github.com/cywf/htb-helper/tools.py): Tool installation and setup functions.
+- [setup.py](https://github.com/cywf/htb-helper/setup.py): User input and directory setup functions.
+- [networking](https://github.com/cywf/htb-helper/networking): Resources and scripts related to networking tasks.
+- [systems](https://github.com/cywf/htb-helper/systems): Guides and resources for Linux, MacOS, and Windows systems.
+- [web](https://github.com/cywf/htb-helper/web): Resources related to web-based vulnerabilities and attacks.
 
 ## Usage
 
@@ -54,5 +54,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ### License
 
-[MIT](LICENSE)
+The HTB-Helper tool is licensed under the [MIT](https://github.com/cywf/htb-helper/LICENSE), because we believe in open-source software and the free dissemination of knowledge.
 
