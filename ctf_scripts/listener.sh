@@ -128,7 +128,16 @@ case $TYPE in
             echo -e "${GREEN}Starting socat listener on port $PORT${NC}"
             echo -e "${YELLOW}Provides PTY by default for better shell${NC}"
             echo ""
-            socat TCP-LISTEN:$PORT,reuseaddr,fork EXEC:/bin/bash,pty,stderr,setsid,sigint,sane
+            # Check for available shells
+            if [ -x "/bin/bash" ]; then
+                SHELL_CMD="/bin/bash"
+            elif [ -x "/bin/sh" ]; then
+                SHELL_CMD="/bin/sh"
+            else
+                echo -e "${RED}No suitable shell found${NC}"
+                exit 1
+            fi
+            socat TCP-LISTEN:$PORT,reuseaddr,fork EXEC:$SHELL_CMD,pty,stderr,setsid,sigint,sane
         else
             echo -e "${RED}socat not found${NC}"
             echo -e "${YELLOW}Install with: sudo apt install socat${NC}"

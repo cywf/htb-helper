@@ -88,6 +88,12 @@ echo -e "  SSL: $SSL"
 echo -e "  Upload: $UPLOAD"
 echo ""
 
+# Validate directory
+if [ ! -d "$DIR" ]; then
+    echo -e "${RED}Error: Directory '$DIR' does not exist or is not accessible${NC}"
+    exit 1
+fi
+
 cd "$DIR"
 
 case $TYPE in
@@ -103,12 +109,24 @@ case $TYPE in
             fi
         elif [ "$SSL" = true ]; then
             echo -e "${BLUE}Starting HTTPS server${NC}"
+            # Check if certificate files exist
+            if [ ! -f "cert.pem" ] || [ ! -f "key.pem" ]; then
+                echo -e "${RED}Error: cert.pem and key.pem files are required for SSL${NC}"
+                echo -e "${YELLOW}Generate with: openssl req -new -x509 -keyout key.pem -out cert.pem -days 365 -nodes${NC}"
+                exit 1
+            fi
             python3 << EOF
 import http.server
 import ssl
+
 server_address = ('0.0.0.0', $PORT)
 httpd = http.server.HTTPServer(server_address, http.server.SimpleHTTPRequestHandler)
-httpd.socket = ssl.wrap_socket(httpd.socket, certfile='cert.pem', keyfile='key.pem', server_side=True)
+
+# Use modern SSL context instead of deprecated wrap_socket
+context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+context.load_cert_chain(certfile='cert.pem', keyfile='key.pem')
+httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
+
 print('Server running on https://0.0.0.0:$PORT')
 httpd.serve_forever()
 EOF

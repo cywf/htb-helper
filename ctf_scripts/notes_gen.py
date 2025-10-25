@@ -360,8 +360,14 @@ def main():
         
         if template_type == 'recon':
             if not args.name or not args.ip:
-                print(f"⚠ Skipping recon template: --name and --ip required")
-                continue
+                if args.type == 'recon':
+                    # User explicitly requested recon template
+                    print(f"✗ Error: Recon template requires --name and --ip arguments")
+                    exit(1)
+                else:
+                    # User used --type all, skip with warning
+                    print(f"⚠ Skipping recon template: --name and --ip required")
+                    continue
             content = generator(args.name, args.ip)
         else:
             content = generator()

