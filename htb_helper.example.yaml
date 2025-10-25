@@ -1,0 +1,29 @@
+# HTB Helper Configuration File
+# Copy this file to htb_helper.yaml and customize as needed
+
+general:
+  base_dir: htb
+  log_file: error_log.txt
+  info_log: htb_helper.log
+
+nmap:
+  threads: 50
+  timeout: 300
+  default_ports: all
+  scripts_path: /usr/share/nmap/scripts
+
+payloads:
+  default_lport: 4444
+  output_format:
+    windows: exe
+    linux: elf
+
+tools:
+  repos:
+    - https://github.com/carlospolop/PEASS-ng
+    - https://github.com/danielmiessler/SecLists
+    - https://github.com/cywf/aliases
+
+wordlists:
+  default: /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+  parameters: /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt

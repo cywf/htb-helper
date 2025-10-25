@@ -27,6 +27,14 @@ def main():
     base_dir = setup.setup_directory_structure(machine_name)
     error_handling.loading_bar(message="Setting up directory structure")
 
+    # Generate info.md file
+    try:
+        setup.generate_info_md(handle, machine_name, machine_ip, base_dir)
+        print(f"Info file created at {base_dir}/notes/info.md")
+    except Exception as e:
+        error_handling.log_error(e, "generate_info_md")
+        error_count += 1
+
     # Install tools
     try:
         tools.install_tools(base_dir)
@@ -46,6 +54,14 @@ def main():
     else:
         print(f"Machine type provided as: {machine_type}")
 
+    # Allow user to choose nmap scan type
+    try:
+        nmap_payload_gen.nmap_scan_choice(machine_ip, base_dir)
+        error_handling.loading_bar(message="Running custom Nmap scan")
+    except Exception as e:
+        error_handling.log_error(e, "nmap_scan_choice")
+        error_count += 1
+
     # Advanced Nmap scan and payload generation
     try:
         nmap_payload_gen.advanced_nmap_scan(machine_ip, machine_type, base_dir)
@@ -54,14 +70,18 @@ def main():
         error_handling.log_error(e, "advanced_nmap_scan")
         error_count += 1
 
+    # Get attacker IP for payload generation
+    attacker_ip = input("Enter your attacker IP (LHOST) for payload generation: ")
+    
     try:
-        nmap_payload_gen.generate_payloads(machine_ip, machine_type, base_dir)
+        nmap_payload_gen.generate_payloads(attacker_ip, machine_type, base_dir)
         error_handling.loading_bar(message="Generating payloads")
     except Exception as e:
         error_handling.log_error(e, "generate_payloads")
         error_count += 1
 
     print("\nAll tasks completed!")
+    print(f"Working directory: {base_dir}")
     if error_count:
         print(f"{error_count} errors occurred. Check error_log.txt for details.")
     else:
