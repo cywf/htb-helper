@@ -7,13 +7,40 @@
 
 import os
 import datetime
+import re
+
+def validate_ip(ip):
+    """Validate an IP address."""
+    pattern = r'^(\d{1,3}\.){3}\d{1,3}$'
+    if not re.match(pattern, ip):
+        return False
+    octets = ip.split('.')
+    return all(0 <= int(octet) <= 255 for octet in octets)
+
+def validate_machine_name(name):
+    """Validate machine name (alphanumeric, dash, underscore)."""
+    return bool(re.match(r'^[a-zA-Z0-9_-]+$', name))
 
 def get_user_input():
     """Get user input for handle, machine name, and IP."""
-    handle = input("Enter your handle: ")
-    machine_name = input("Enter the name of the machine you are pentesting: ")
-    machine_ip = input("Enter the IP of the machine you are pentesting: ")
-    machine_type = input("Do you know the machine type (Windows/Linux)? If not, just press enter: ")
+    handle = input("Enter your handle: ").strip()
+    
+    while True:
+        machine_name = input("Enter the name of the machine you are pentesting: ").strip()
+        if validate_machine_name(machine_name):
+            break
+        print("Invalid machine name. Use only alphanumeric characters, dashes, and underscores.")
+    
+    while True:
+        machine_ip = input("Enter the IP of the machine you are pentesting: ").strip()
+        if validate_ip(machine_ip):
+            break
+        print("Invalid IP address. Please enter a valid IPv4 address.")
+    
+    machine_type = input("Do you know the machine type (Windows/Linux)? If not, just press enter: ").strip()
+    if machine_type and machine_type.lower() not in ['windows', 'linux']:
+        print(f"Warning: Unknown machine type '{machine_type}'. Proceeding anyway.")
+    
     return handle, machine_name, machine_ip, machine_type
 
 def setup_directory_structure(machine_name):

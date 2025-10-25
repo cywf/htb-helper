@@ -1,25 +1,12 @@
-# Networking and scanning tools
-nmap==3.0.1
+# Core dependencies
+python-nmap>=0.7.1  # For nmap scanning with Python
+requests>=2.31.0    # General HTTP utilities (security updates)
+colorama>=0.4.6     # Colored terminal output
+pyyaml>=6.0.1       # Configuration file support
 
-# General utilities
-requests==2.25.1
-
-# For any potential data processing or manipulation
-pandas==1.2.4
-
-# If there's any potential for web scraping or HTML parsing
-beautifulsoup4==4.9.3
-lxml==4.6.3
-
-# If there's any potential for asynchronous operations
-aiohttp==3.7.4
-
-# For potential JSON operations
-simplejson==3.17.2
-
-# If there's any potential for date and time operations
-python-dateutil==2.8.1
-
-# If there's any potential for string pattern matching
-regex==2021.4.4
+# Optional - only install if needed for specific functionality
+# Uncomment based on requirements:
+# beautifulsoup4>=4.12.0  # Web scraping/HTML parsing
+# lxml>=5.0.0              # XML/HTML processing
+# python-dateutil>=2.8.2   # Date/time operations
 

