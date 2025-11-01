@@ -725,9 +725,7 @@ Some Linux versions were affected by a bug that allows users with **UID > INT\_M
 
 Check if you are a **member of some group** that could grant you root privileges:
 
-{% content-ref url="interesting-groups-linux-pe/" %}
 [interesting-groups-linux-pe](interesting-groups-linux-pe/)
-{% endcontent-ref %}
 
 ### Clipboard
 
