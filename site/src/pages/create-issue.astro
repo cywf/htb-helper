@@ -7,28 +7,32 @@ const issueTypes = [
     description: 'Report a bug or unexpected behavior',
     icon: '🐛',
     url: 'https://github.com/cywf/htb-helper/issues/new?labels=bug&template=bug_report.md',
-    color: 'error',
+    borderColor: 'border-error',
+    buttonColor: 'btn-error',
   },
   {
     name: 'Feature Request',
     description: 'Suggest a new feature or enhancement',
     icon: '✨',
     url: 'https://github.com/cywf/htb-helper/issues/new?labels=enhancement&template=feature_request.md',
-    color: 'success',
+    borderColor: 'border-success',
+    buttonColor: 'btn-success',
   },
   {
     name: 'Documentation',
     description: 'Improve or report issues with documentation',
     icon: '📚',
     url: 'https://github.com/cywf/htb-helper/issues/new?labels=documentation&template=documentation.md',
-    color: 'info',
+    borderColor: 'border-info',
+    buttonColor: 'btn-info',
   },
   {
     name: 'Question',
     description: 'Ask a question about the project',
     icon: '❓',
     url: 'https://github.com/cywf/htb-helper/issues/new?labels=question',
-    color: 'warning',
+    borderColor: 'border-warning',
+    buttonColor: 'btn-warning',
   },
 ];
 ---
@@ -49,7 +53,7 @@ const issueTypes = [
           href={type.url}
           target="_blank"
           rel="noopener noreferrer"
-          class={`card bg-base-200 shadow-md hover:shadow-xl hover:bg-base-300 transition-all border-l-4 border-${type.color}`}
+          class={`card bg-base-200 shadow-md hover:shadow-xl hover:bg-base-300 transition-all border-l-4 ${type.borderColor}`}
         >
           <div class="card-body">
             <h2 class="card-title text-2xl">
@@ -58,7 +62,7 @@ const issueTypes = [
             </h2>
             <p class="opacity-80">{type.description}</p>
             <div class="card-actions justify-end mt-4">
-              <span class={`btn btn-${type.color} btn-sm`}>
+              <span class={`btn ${type.buttonColor} btn-sm`}>
                 Create {type.name}
               </span>
             </div>

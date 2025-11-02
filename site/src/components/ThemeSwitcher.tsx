@@ -24,12 +24,10 @@ export default function ThemeSwitcher() {
       setTheme(storedTheme);
       document.documentElement.setAttribute('data-theme', storedTheme);
     } else {
-      // Check prefers-color-scheme
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      // Use default theme
       const defaultTheme = (import.meta.env.DEFAULT_THEME as Theme) || 'nightfall';
-      const initialTheme = prefersDark ? defaultTheme : defaultTheme;
-      setTheme(initialTheme);
-      document.documentElement.setAttribute('data-theme', initialTheme);
+      setTheme(defaultTheme);
+      document.documentElement.setAttribute('data-theme', defaultTheme);
     }
   }, []);
 

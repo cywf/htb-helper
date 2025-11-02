@@ -89,13 +89,21 @@ export default function StatisticsCharts() {
     'rgba(168, 85, 247, 0.8)',
   ];
 
+  const languageBorderColors = [
+    'rgba(59, 130, 246, 1)',
+    'rgba(16, 185, 129, 1)',
+    'rgba(245, 158, 11, 1)',
+    'rgba(239, 68, 68, 1)',
+    'rgba(168, 85, 247, 1)',
+  ];
+
   const languageChartData = {
     labels: languageLabels,
     datasets: [
       {
         data: languageData,
         backgroundColor: languageColors,
-        borderColor: languageColors.map(c => c.replace('0.8', '1')),
+        borderColor: languageBorderColors,
         borderWidth: 1,
       },
     ],
