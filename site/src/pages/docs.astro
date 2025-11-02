@@ -1,0 +1,187 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const docsFiles = [
+  { name: 'README', file: 'README.md', description: 'Project overview and getting started guide' },
+  { name: 'Quick Start', file: 'QUICKSTART.md', description: 'Quick start guide for new users' },
+  { name: 'Review Summary', file: 'REVIEW_SUMMARY.md', description: 'Project review and analysis' },
+  { name: 'CTF Scripts', file: 'ctf_scripts/README.md', description: 'Documentation for CTF helper scripts' },
+  { name: 'Linux Systems', file: 'systems/linux/README.md', description: 'Linux-specific resources and guides' },
+  { name: 'Systems', file: 'systems/README.md', description: 'OS-specific guides and resources' },
+  { name: 'Networking', file: 'networking/README.md', description: 'Networking resources and guides' },
+  { name: 'Web', file: 'web/README.md', description: 'Web vulnerability resources' },
+];
+
+const selectedDoc = Astro.url.searchParams.get('doc') || 'README';
+---
+
+<Layout title="Documentation" description="Complete documentation for HTB Helper">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold mb-4">Documentation</h1>
+      <p class="text-lg opacity-80">
+        Comprehensive guides and documentation for using HTB Helper.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <!-- Sidebar Navigation -->
+      <aside class="lg:col-span-1">
+        <div class="card bg-base-200 shadow-md sticky top-20">
+          <div class="card-body">
+            <h2 class="card-title text-lg mb-4">Documentation</h2>
+            <ul class="menu menu-sm p-0">
+              {docsFiles.map((doc) => (
+                <li>
+                  <a
+                    href={`/htb-helper/docs?doc=${doc.file}`}
+                    class={selectedDoc === doc.file || selectedDoc === doc.name ? 'active' : ''}
+                  >
+                    {doc.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <div class="lg:col-span-3">
+        <div class="card bg-base-200 shadow-md">
+          <div class="card-body">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="card-title">
+                {docsFiles.find(d => d.file === selectedDoc || d.name === selectedDoc)?.name || 'README'}
+              </h2>
+              <a
+                href={`https://github.com/cywf/htb-helper/blob/main/${docsFiles.find(d => d.file === selectedDoc || d.name === selectedDoc)?.file || 'README.md'}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-sm btn-outline"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Open in GitHub
+              </a>
+            </div>
+
+            <div id="doc-content" class="prose prose-invert max-w-none">
+              <div class="loading loading-spinner loading-lg mx-auto"></div>
+              <p class="text-center mt-4">Loading documentation...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const selectedDoc = new URLSearchParams(window.location.search).get('doc') || 'README.md';
+  const docsFiles = [
+    { name: 'README', file: 'README.md' },
+    { name: 'Quick Start', file: 'QUICKSTART.md' },
+    { name: 'Review Summary', file: 'REVIEW_SUMMARY.md' },
+    { name: 'CTF Scripts', file: 'ctf_scripts/README.md' },
+    { name: 'Linux Systems', file: 'systems/linux/README.md' },
+    { name: 'Systems', file: 'systems/README.md' },
+    { name: 'Networking', file: 'networking/README.md' },
+    { name: 'Web', file: 'web/README.md' },
+  ];
+
+  // Find the actual file path
+  let filePath = selectedDoc;
+  const docInfo = docsFiles.find(d => d.name === selectedDoc || d.file === selectedDoc);
+  if (docInfo) {
+    filePath = docInfo.file;
+  }
+
+  // Fetch and render markdown
+  async function loadDoc() {
+    const contentDiv = document.getElementById('doc-content');
+    if (!contentDiv) return;
+
+    try {
+      const response = await fetch(`https://raw.githubusercontent.com/cywf/htb-helper/main/${filePath}`);
+      if (!response.ok) {
+        throw new Error('Failed to load document');
+      }
+
+      const markdown = await response.text();
+      
+      // Simple markdown to HTML conversion (for MVP - in production use marked.js or similar)
+      let html = markdown
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*)\*/gim, '<em>$1</em>')
+        .replace(/```(\w+)?\n([\s\S]*?)```/gim, '<pre><code>$2</code></pre>')
+        .replace(/`([^`]+)`/gim, '<code>$1</code>')
+        .replace(/^\* (.*$)/gim, '<li>$1</li>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+      contentDiv.innerHTML = `<p>${html}</p>`;
+    } catch (error) {
+      contentDiv.innerHTML = `
+        <div class="alert alert-error">
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Failed to load documentation. Please try again later.</span>
+        </div>
+      `;
+    }
+  }
+
+  loadDoc();
+</script>
+
+<style>
+  .prose {
+    @apply text-base-content;
+  }
+
+  .prose h1 {
+    @apply text-3xl font-bold mb-4 mt-6;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold mb-3 mt-5;
+  }
+
+  .prose h3 {
+    @apply text-xl font-bold mb-2 mt-4;
+  }
+
+  .prose p {
+    @apply mb-4;
+  }
+
+  .prose code {
+    @apply bg-base-300 px-2 py-1 rounded text-sm;
+  }
+
+  .prose pre {
+    @apply bg-base-300 p-4 rounded overflow-x-auto mb-4;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .prose a {
+    @apply text-primary hover:underline;
+  }
+
+  .prose ul {
+    @apply list-disc list-inside mb-4;
+  }
+
+  .prose li {
+    @apply mb-1;
+  }
+</style>

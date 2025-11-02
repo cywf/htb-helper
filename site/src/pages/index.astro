@@ -1,0 +1,147 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const repoOwner = 'cywf';
+const repoName = 'htb-helper';
+
+// Read README excerpt (first few sections)
+const readmeUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/README.md`;
+
+const features = [
+  'User Input Collection',
+  'Directory Structure Setup',
+  'Tool Installation',
+  'Nmap Scanning',
+  'Advanced Nmap Scripts',
+  'Payload Generation',
+  'Error Handling',
+  'Tmux Integration',
+  'CTF Scripts',
+  'CLI Support',
+  'Configuration',
+];
+
+const quickLinks = [
+  { name: 'Issues', href: `https://github.com/${repoOwner}/${repoName}/issues`, external: true },
+  { name: 'Discussions', href: `https://github.com/${repoOwner}/${repoName}/discussions`, external: true },
+  { name: 'Releases', href: `https://github.com/${repoOwner}/${repoName}/releases`, external: true },
+  { name: 'Quick Start Guide', href: '/htb-helper/docs?doc=QUICKSTART', external: false },
+  { name: 'Review Summary', href: '/htb-helper/docs?doc=REVIEW_SUMMARY', external: false },
+];
+
+const languages = [
+  { name: 'Python', percentage: 75, color: 'bg-blue-500' },
+  { name: 'Shell', percentage: 20, color: 'bg-green-500' },
+  { name: 'Other', percentage: 5, color: 'bg-gray-500' },
+];
+---
+
+<Layout title="Home" description="HTB Helper - Comprehensive penetration testing tool for Hack The Box challenges">
+  <div class="space-y-8">
+    <!-- Hero Section -->
+    <div class="hero bg-base-200 rounded-lg">
+      <div class="hero-content text-center py-12">
+        <div class="max-w-3xl">
+          <h1 class="text-5xl font-bold mb-4">HTB Helper</h1>
+          <p class="text-xl mb-6">
+            A comprehensive tool designed to assist penetration testers and security enthusiasts in their Hack The Box (HTB) challenges.
+          </p>
+          <p class="mb-8">
+            htb-helper streamlines the initial phases of a penetration test by automating common tasks such as Nmap scanning, payload generation, and error handling.
+          </p>
+          <div class="flex gap-4 justify-center flex-wrap">
+            <a href="/htb-helper/scripts" class="btn btn-primary btn-lg">
+              Explore Scripts
+            </a>
+            <a href="/htb-helper/docs" class="btn btn-outline btn-lg">
+              Documentation
+            </a>
+            <a href={`https://github.com/${repoOwner}/${repoName}`} target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-lg">
+              View on GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Grid -->
+    <section>
+      <h2 class="text-3xl font-bold mb-6">Features</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {features.map((feature) => (
+          <div class="card bg-base-200 shadow-md">
+            <div class="card-body">
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <h3 class="card-title text-base">{feature}</h3>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section>
+      <h2 class="text-3xl font-bold mb-6">Quick Links</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {quickLinks.map((link) => (
+          <a
+            href={link.href}
+            class="card bg-base-200 hover:bg-base-300 shadow-md transition-colors"
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+          >
+            <div class="card-body">
+              <h3 class="card-title text-base">
+                {link.name}
+                {link.external && (
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                )}
+              </h3>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Language Breakdown -->
+    <section>
+      <h2 class="text-3xl font-bold mb-6">Language Breakdown</h2>
+      <div class="card bg-base-200 shadow-md">
+        <div class="card-body">
+          <div class="space-y-4">
+            {languages.map((lang) => (
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="font-medium">{lang.name}</span>
+                  <span class="text-sm opacity-70">{lang.percentage}%</span>
+                </div>
+                <div class="w-full bg-base-300 rounded-full h-2.5">
+                  <div class={`${lang.color} h-2.5 rounded-full`} style={`width: ${lang.percentage}%`}></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="card bg-gradient-to-r from-primary to-secondary text-primary-content shadow-xl">
+      <div class="card-body text-center">
+        <h2 class="card-title text-3xl justify-center mb-4">Ready to Get Started?</h2>
+        <p class="mb-6">
+          Explore our collection of CTF scripts and utilities to enhance your penetration testing workflow.
+        </p>
+        <div class="card-actions justify-center">
+          <a href="/htb-helper/scripts" class="btn btn-neutral btn-lg">Browse Scripts</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

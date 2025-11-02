@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MermaidViewer from '../components/MermaidViewer';
+
+// In a real implementation, this would be populated by the build process
+// For now, we'll pass an empty array and show the helpful empty state
+const diagrams: string[] = [];
+---
+
+<Layout title="Project Visualizer" description="Interactive Mermaid diagrams for project architecture and workflows">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold mb-4">Project Visualizer</h1>
+      <p class="text-lg opacity-80">
+        Interactive diagrams showing project architecture, workflows, and relationships.
+      </p>
+    </div>
+
+    <MermaidViewer diagrams={diagrams} client:load />
+  </div>
+</Layout>

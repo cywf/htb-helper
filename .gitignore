@@ -49,3 +49,9 @@ Thumbs.db
 *.tmp
 *.bak
 *.backup
+
+# Node.js / Astro
+site/node_modules/
+site/dist/
+site/.astro/
+site/package-lock.json

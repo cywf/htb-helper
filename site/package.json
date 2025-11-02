@@ -1,0 +1,36 @@
+{
+  "name": "htb-helper-site",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "tsc --noEmit",
+    "fetch-data": "tsx scripts/fetch_repo_data.ts && tsx scripts/fetch_discussions.ts && tsx scripts/fetch_projects.ts && tsx scripts/index_scripts.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "Multi-page Astro site for HTB Helper",
+  "devDependencies": {
+    "@astrojs/mdx": "^4.3.9",
+    "@astrojs/react": "^4.4.1",
+    "@astrojs/tailwind": "^6.0.2",
+    "@types/node": "^24.9.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "astro": "^5.15.3",
+    "daisyui": "^5.4.2",
+    "tailwindcss": "^3.4.18",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.1",
+    "mermaid": "^11.12.1",
+    "react": "^19.2.0",
+    "react-chartjs-2": "^5.3.1",
+    "react-dom": "^19.2.0"
+  }
+}

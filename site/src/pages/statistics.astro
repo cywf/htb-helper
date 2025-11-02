@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StatisticsCharts from '../components/StatisticsCharts';
+---
+
+<Layout title="Statistics" description="Repository statistics including stars, forks, and contribution metrics">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold mb-4">Repository Statistics</h1>
+      <p class="text-lg opacity-80">
+        Insights into the project's growth, activity, and community engagement.
+      </p>
+    </div>
+
+    <StatisticsCharts client:load />
+  </div>
+</Layout>

@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DiscussionsList from '../components/DiscussionsList';
+---
+
+<Layout title="Discussions" description="Browse and participate in community discussions">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold mb-4">Discussions</h1>
+      <p class="text-lg opacity-80">
+        Join the conversation! Browse recent discussions and share your thoughts with the community.
+      </p>
+    </div>
+
+    <div class="flex gap-4">
+      <a
+        href="https://github.com/cywf/htb-helper/discussions"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-primary"
+      >
+        View All on GitHub
+      </a>
+      <a
+        href="https://github.com/cywf/htb-helper/discussions/new"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-outline"
+      >
+        Start a Discussion
+      </a>
+    </div>
+
+    <DiscussionsList client:load />
+  </div>
+</Layout>

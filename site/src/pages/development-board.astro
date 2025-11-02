@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DevelopmentBoard from '../components/DevelopmentBoard';
+---
+
+<Layout title="Development Board" description="Track project development progress and tasks">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-4xl font-bold mb-4">Development Board</h1>
+      <p class="text-lg opacity-80">
+        Track the progress of features, bugs, and improvements in the HTB Helper project.
+      </p>
+    </div>
+
+    <div class="flex gap-4">
+      <a
+        href="https://github.com/cywf/htb-helper/projects"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-primary"
+      >
+        View Projects on GitHub
+      </a>
+      <a
+        href="https://github.com/cywf/htb-helper/issues"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-outline"
+      >
+        View All Issues
+      </a>
+    </div>
+
+    <DevelopmentBoard client:load />
+  </div>
+</Layout>
