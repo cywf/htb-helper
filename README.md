@@ -1,6 +1,11 @@
 # HTB-Helper
 
+[![Deploy Astro Site to Pages](https://github.com/cywf/htb-helper/actions/workflows/pages.yml/badge.svg)](https://github.com/cywf/htb-helper/actions/workflows/pages.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A comprehensive tool designed to assist penetration testers and security enthusiasts in their Hack The Box (HTB) challenges. htb-helper streamlines the initial phases of a penetration test by automating common tasks such as Nmap scanning, payload generation, and error handling.
+
+**🌐 Live Site**: [https://cywf.github.io/htb-helper/](https://cywf.github.io/htb-helper/)
 
 ## Features
 
@@ -212,7 +217,68 @@ python3 cli.py \
 # Results will be in htb/AutoBox/
 ```
 
-### Contributing
+## Website & Documentation
+
+The HTB Helper project includes a comprehensive multi-page website built with **Astro**, **React**, **TailwindCSS**, and **daisyUI**.
+
+### Website Features
+
+- **📚 Interactive Documentation**: Browse all project documentation with syntax highlighting
+- **🔧 Scripts Explorer**: Searchable catalog of CTF scripts with filters and copy-to-clipboard functionality
+- **📊 Statistics Dashboard**: Real-time repository statistics with interactive charts
+- **💬 Discussions**: Latest community discussions and conversations
+- **📋 Development Board**: Kanban-style view of project tasks and issues
+- **🎨 Mermaid Visualizer**: Interactive diagram viewer for project architecture
+- **🌙 Theme Switcher**: 7 dark/neon themes with localStorage persistence
+
+### How It Works
+
+The website is automatically built and deployed via GitHub Actions on every push to `main`:
+
+1. **Data Snapshot Scripts** (`site/scripts/`):
+   - `fetch_repo_data.ts` - Fetches repository statistics (stars, forks, languages, commits)
+   - `fetch_discussions.ts` - Retrieves latest 25 discussions
+   - `fetch_projects.ts` - Fetches project board items (falls back to issues)
+   - `index_scripts.ts` - Scans `ctf_scripts/`, `systems/`, `networking/`, and `web/` to extract script metadata
+
+2. **Build Process**:
+   - Scripts generate JSON files in `site/public/data/`
+   - Astro builds static pages consuming these JSON snapshots
+   - All assets are optimized with base path `/htb-helper`
+
+3. **Deployment**:
+   - GitHub Pages serves the static site
+   - Lighthouse CI validates performance, accessibility, and SEO
+
+### Adding New Scripts
+
+New scripts are automatically discovered by the CI pipeline:
+
+1. Add your script to `ctf_scripts/`, `systems/`, `networking/`, or `web/`
+2. Include a description comment at the top of the file
+3. Commit and push - the site will update automatically!
+
+Example:
+```python
+#!/usr/bin/env python3
+"""
+My Awesome Script - Brief description here
+"""
+# Your code...
+```
+
+### Local Development
+
+To run the site locally:
+
+```bash
+cd site
+npm install
+npm run fetch-data  # Fetch latest data (requires GITHUB_TOKEN for full data)
+npm run dev         # Start dev server at http://localhost:4321
+```
+
+## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

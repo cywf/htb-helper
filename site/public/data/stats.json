@@ -1,0 +1,61 @@
+{
+  "stars": 0,
+  "forks": 0,
+  "watchers": 0,
+  "openIssues": 0,
+  "languages": {
+    "Python": 75,
+    "Shell": 20,
+    "Other": 5
+  },
+  "weeklyCommits": [
+    {
+      "week": "Week 1",
+      "commits": 0
+    },
+    {
+      "week": "Week 2",
+      "commits": 0
+    },
+    {
+      "week": "Week 3",
+      "commits": 0
+    },
+    {
+      "week": "Week 4",
+      "commits": 0
+    },
+    {
+      "week": "Week 5",
+      "commits": 0
+    },
+    {
+      "week": "Week 6",
+      "commits": 0
+    },
+    {
+      "week": "Week 7",
+      "commits": 0
+    },
+    {
+      "week": "Week 8",
+      "commits": 0
+    },
+    {
+      "week": "Week 9",
+      "commits": 0
+    },
+    {
+      "week": "Week 10",
+      "commits": 0
+    },
+    {
+      "week": "Week 11",
+      "commits": 0
+    },
+    {
+      "week": "Week 12",
+      "commits": 0
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+[
+  {
+    "filename": "http_server.sh",
+    "path": "ctf_scripts/http_server.sh",
+    "description": "HTTP Server Helper",
+    "language": "Shell",
+    "usage": "./http_server.sh --help"
+  },
+  {
+    "filename": "listener.sh",
+    "path": "ctf_scripts/listener.sh",
+    "description": "Listener Setup Helper",
+    "language": "Shell",
+    "purpose": "revshell",
+    "usage": "./listener.sh --help"
+  },
+  {
+    "filename": "notes_gen.py",
+    "path": "ctf_scripts/notes_gen.py",
+    "description": "CTF Notes Template Generator",
+    "language": "Python",
+    "purpose": "fuzzing",
+    "usage": "python3 notes_gen.py --help"
+  },
+  {
+    "filename": "quick_enum.sh",
+    "path": "ctf_scripts/quick_enum.sh",
+    "description": "Quick Enumeration Script for Linux",
+    "language": "Shell",
+    "purpose": "enum",
+    "usage": "./quick_enum.sh --help"
+  },
+  {
+    "filename": "revshell_gen.py",
+    "path": "ctf_scripts/revshell_gen.py",
+    "description": "Reverse Shell Generator",
+    "language": "Python",
+    "purpose": "revshell",
+    "usage": "python3 revshell_gen.py --help"
+  },
+  {
+    "filename": "web_fuzz.sh",
+    "path": "ctf_scripts/web_fuzz.sh",
+    "description": "Web Fuzzing Helper Script",
+    "language": "Shell",
+    "purpose": "fuzzing",
+    "usage": "./web_fuzz.sh --help"
+  }
+]
